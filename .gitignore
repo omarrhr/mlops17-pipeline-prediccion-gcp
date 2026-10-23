@@ -1,0 +1,7 @@
+# NUNCA subir credenciales
+*.json
+!my_app/*.json
+sa-github-key.json
+__pycache__/
+*.pyc
+venv*/
