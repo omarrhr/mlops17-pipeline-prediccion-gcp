@@ -30,6 +30,7 @@ def run_pipeline():
     predictions_table = os.environ.get('PREDICTIONS_TABLE')
     prc_preparar = os.environ.get('PRC_PREPARAR')
     overall_qual = float(os.environ.get('INPUT_OVERALL_QUAL', '0.0'))
+    recipients = [c.strip() for c in os.environ.get('NOTIFICATION_EMAIL', '').split(',') if c.strip()]
 
     aiplatform.init(project=project, location=location)
 
@@ -49,6 +50,7 @@ def run_pipeline():
             'path_model': model_path,
             'prc_preparar': prc_preparar,
             'input_overall_qual': overall_qual,
+            'recipients': recipients,
         },
     )
 

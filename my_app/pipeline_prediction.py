@@ -30,7 +30,7 @@ NOTA DE MIGRACION
   La estructura y la logica son las mismas de clase.
 """
 import os
-from typing import NamedTuple
+from typing import List, NamedTuple
 
 from kfp import dsl, compiler
 
@@ -42,7 +42,10 @@ from google_cloud_pipeline_components.v1.bigquery import BigqueryQueryJobOp
 # --------------------------------------------------------------------------
 PROYECTO_PROC = 'dp-mlops17-ohuaman-pf-proc'
 BUCKET = 'dp-mlops17-ohuaman-pf-vertex'
-CORREO = 'orodrigohr@gmail.com'
+
+# El destinatario de la notificacion es configuracion, no codigo: entra como
+# parametro del pipeline para no dejar un correo personal en el repositorio.
+# El Cloud Run Job lo pasa desde la variable de entorno NOTIFICATION_EMAIL.
 
 PIPELINE_LABEL = {'proyecto': 'final', 'curso': 'mlops17'}
 PRC_PREPARAR = os.getenv('PRC_PREPARAR_UNIVERSO',
@@ -189,10 +192,11 @@ def main_pipeline(
     table_output: str,
     table_id: str,
     path_model: str,
+    recipients: List[str],
     prc_preparar: str = PRC_PREPARAR,
     input_overall_qual: float = 0.0,
 ):
-    notify_email_task = VertexNotificationEmailOp(recipients=[CORREO])
+    notify_email_task = VertexNotificationEmailOp(recipients=recipients)
     notify_email_task.set_display_name('Notification Email')
 
     with dsl.ExitHandler(notify_email_task, name='Execute pipeline prediction'):

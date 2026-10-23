@@ -7,6 +7,7 @@
 #    path_model: str
 #    prc_preparar: str [Default: 'dp-mlops17-ohuaman-pf-proc.ds_procesamiento.prc_preparar_universo']
 #    project: str
+#    recipients: list
 #    source_input_table: str
 #    table_id: str
 #    table_output: str
@@ -561,9 +562,7 @@ root:
               taskFinalStatus:
                 producerTask: exit-handler-1
             recipients:
-              runtimeValue:
-                constant:
-                - orodrigohr@gmail.com
+              componentInputParameter: recipients
         taskInfo:
           name: Notification Email
         triggerPolicy:
@@ -584,6 +583,8 @@ root:
         parameterType: STRING
       project:
         parameterType: STRING
+      recipients:
+        parameterType: LIST
       source_input_table:
         parameterType: STRING
       table_id:
